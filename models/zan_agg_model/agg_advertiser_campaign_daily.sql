@@ -1,22 +1,30 @@
-SELECT
-                    TO_DATE(timestamp_pst) date
-                    ,account_id
-                    ,campaign_id
-                    ,placement_id
-                    ,publisher_id
-                    ,SUM(CASE WHEN event_type = 'campaign_clicked' THEN 1 ELSE 0 END) clicks
-                    ,SUM(CASE WHEN event_type = 'campaign_impressed'  THEN 1 ELSE 0 END) impressions
-                    ,SUM(CASE WHEN event_type = 'campaign_recommended'  THEN 1 ELSE 0 END) recommendations
-                    ,SUM(CASE WHEN event_type = 'campaign_converted' THEN 1 ELSE 0 END) conversions
-                    ,SUM(CASE WHEN event_type = 'campaign_converted' THEN revenue ELSE 0 END) advertiser_cost
-                    ,SUM(CASE WHEN event_type = 'campaign_converted' THEN revenue ELSE 0 END) - SUM(CASE WHEN event_type = 'campaign_converted' THEN revenue * rev_share/1e6 ELSE 0 END) zeeto_revenue
-                    ,SUM(CASE WHEN event_type = 'lead_accepted' THEN 1 ELSE 0 END) leads_accepted
-                    ,SUM(CASE WHEN event_type = 'lead_rejected' THEN 1 ELSE 0 END) leads_rejected
-                    ,(SUM(CASE WHEN event_type = 'lead_accepted' THEN 1 ELSE 0 END) + SUM(CASE WHEN event_type = 'lead_rejected' THEN 1 ELSE 0 END) + SUM(CASE WHEN EVENT_TYPE = 'lead_failed' THEN 1 ELSE 0 END)) delivery_count
-            FROM
-              {{ source('zan_zevent', 'event_visit_campaign') }}
-            WHERE
-              timestamp_pst >= current_date -1 
-              AND date IS NOT NULL
-              AND date < CURRENT_DATE
-            GROUP BY all
+select
+    to_date(timestamp_pst) date,
+    account_id,
+    campaign_id,
+    placement_id,
+    publisher_id,
+    sum(case when event_type = 'campaign_clicked' then 1 else 0 end) clicks,
+    sum(case when event_type = 'campaign_impressed' then 1 else 0 end) impressions,
+    sum(
+        case when event_type = 'campaign_recommended' then 1 else 0 end
+    ) recommendations,
+    sum(case when event_type = 'campaign_converted' then 1 else 0 end) conversions,
+    sum(
+        case when event_type = 'campaign_converted' then revenue else 0 end
+    ) advertiser_cost,
+    sum(case when event_type = 'campaign_converted' then revenue else 0 end) - sum(
+        case
+            when event_type = 'campaign_converted' then revenue * rev_share / 1e6 else 0
+        end
+    ) zeeto_revenue,
+    sum(case when event_type = 'lead_accepted' then 1 else 0 end) leads_accepted,
+    sum(case when event_type = 'lead_rejected' then 1 else 0 end) leads_rejected,
+    (
+        sum(case when event_type = 'lead_accepted' then 1 else 0 end)
+        + sum(case when event_type = 'lead_rejected' then 1 else 0 end)
+        + sum(case when event_type = 'lead_failed' then 1 else 0 end)
+    ) delivery_count
+from {{ source("zan_zevent", "event_visit_campaign") }}
+where date is not null and date < current_date
+group by all
