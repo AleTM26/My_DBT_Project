@@ -7,6 +7,7 @@ models:
       lookback: 3
       batch_size: day
       begin: "2025-04-06"
+      full_refresh: false
     columns:
       - name: date
         description: Day in PST
