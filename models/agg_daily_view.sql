@@ -19,7 +19,7 @@ SELECT
                     ,SUM(CASE WHEN event_type = 'lead_accepted' THEN 1 ELSE 0 END) leads_accepted
                     ,SUM(CASE WHEN event_type = 'lead_rejected' THEN 1 ELSE 0 END) leads_rejected
                     ,(SUM(CASE WHEN event_type = 'lead_accepted' THEN 1 ELSE 0 END) + SUM(CASE WHEN event_type = 'lead_rejected' THEN 1 ELSE 0 END) + SUM(CASE WHEN EVENT_TYPE = 'lead_failed' THEN 1 ELSE 0 END)) delivery_count
-            from zan_dev.zevent.event_visit_campaign
+            from {{ source("zan_zevent", "event_visit_campaign") }}
   WHERE 
          date IS NOT NULL
         AND date < CURRENT_DATE
