@@ -1,5 +1,6 @@
 select
     to_date(timestamp_pst) date,
+    to_date(timestamp) date_utc,
     account_id,
     campaign_id,
     placement_id,
