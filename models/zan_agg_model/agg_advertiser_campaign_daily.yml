@@ -1,7 +1,7 @@
 models:
   - name: agg_advertiser_campaign_daily
     config: 
-      event_time: date
+      event_time: date_utc
       materialized: incremental
       incremental_strategy: microbatch
       lookback: 3
