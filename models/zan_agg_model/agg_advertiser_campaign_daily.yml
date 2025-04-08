@@ -10,6 +10,8 @@ models:
     columns:
       - name: date
         description: Day in PST
+      - name: date_utc
+        description: Day in UTC
       - name: account_id
         description: Advertiser ID 
       - name: placement_id
