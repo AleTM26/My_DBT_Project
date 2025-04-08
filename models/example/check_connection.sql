@@ -1,1 +1,1 @@
-select timestamp from zan_dev.zevent.event_visit_campaign ;
+select timestamp from zan_dev.zevent.event_visit_campaign 

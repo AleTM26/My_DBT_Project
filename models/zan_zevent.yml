@@ -27,11 +27,3 @@ sources:
           - name: rev_share
             description: Revenue Share
 
-
-
-
-      - name: customers
-
-  - name: stripe
-    tables:
-      - name: payments
