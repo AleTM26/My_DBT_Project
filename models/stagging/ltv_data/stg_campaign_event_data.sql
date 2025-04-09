@@ -1,3 +1,14 @@
+with pixel_data as (
+SELECT
+    id,
+    visit_tracking_id,
+    campaign_tracking_id,
+    purchase,
+    revenue/1e6 AS revenue,
+    timestamp_max
+FROM {{ source("zan_zmetrics", "agg_visit_campaign_pixel") }}
+
+)
 SELECT
 DATE(ec.timestamp) AS visit_date_utc,
 DATE(ec.timestamp_pst) AS visit_date,
@@ -41,7 +52,7 @@ LEFT JOIN {{ source("zan_zpg_placement", "publishers") }}  AS ps ON ec.publisher
 LEFT JOIN {{ source("zan_zpg_placement", "placements") }} AS p ON ec.placement_id = p.id
 LEFT JOIN {{ source("zan_zpg_campaign", "campaigns") }} c ON ec.campaign_id = c.id
 LEFT JOIN {{ source("zan_zpg_campaign", "advertisers") }} a ON c.account_id = a.id
-LEFT JOIN {{ ref('stg_pixel_data') }}
+LEFT JOIN pixel_data
 
  as px ON ec.visit_tracking_id = px.visit_tracking_id AND ec.campaign_tracking_id = px.campaign_tracking_id AND ec.event_type = 'campaign_converted'
 

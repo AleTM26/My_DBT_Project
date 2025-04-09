@@ -1,0 +1,23 @@
+models:
+  - name: stg_campaign_event_data
+    description: Gets the campaign events campaign_impressed, campaign_clicked, campaign_converted for placement:linkout & rate type:cpc
+    config: 
+      event_time: visit_date
+      materialized: incremental
+      incremental_strategy: microbatch
+      lookback: 3
+      batch_size: day
+      begin: "2025-04-06"
+      full_refresh: false
+  - name: stg_campaign_with_purchases
+    description: Gets the campaign events campaign_impressed, campaign_clicked, campaign_converted for placement:linkout & rate type:cpc with purchase count >0
+  - name: int_ltv_data
+    description: Analysis with campaign events and pixel data for linkout campaigns
+    config:
+      event_time: visit_date
+      materialized: incremental
+      incremental_strategy: microbatch
+      lookback: 3
+      batch_size: day
+      begin: "2025-04-06"
+      full_refresh: false
