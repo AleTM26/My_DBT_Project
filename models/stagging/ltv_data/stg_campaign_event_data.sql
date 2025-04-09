@@ -36,12 +36,14 @@ COUNT(DISTINCT(CASE WHEN ec.event_type = 'campaign_converted' AND px.purchase >0
 SUM(CASE WHEN ec.event_type = 'campaign_converted' AND px.purchase >0 THEN px.revenue ELSE NULL END) AS pixel_revenue
 
 FROM {{ source("zan_zevent", "event_visit_campaign") }} ec
-LEFT JOIN zan_prod.zpg_placement.properties AS pp ON ec.property_id = pp.id
-LEFT JOIN zan_prod.zpg_placement.publishers AS ps ON ec.publisher_id = ps.id
-LEFT JOIN zan_prod.zpg_placement.placements AS p ON ec.placement_id = p.id
-LEFT JOIN zan_prod.zpg_campaign.campaigns c ON ec.campaign_id = c.id
-LEFT JOIN zan_prod.zpg_campaign.advertisers a ON c.account_id = a.id
-LEFT JOIN pixel_data as px ON ec.visit_tracking_id = px.visit_tracking_id AND ec.campaign_tracking_id = px.campaign_tracking_id AND ec.event_type = 'campaign_converted'
+LEFT JOIN {{ source("zan_zpg_placement", "properties") }} AS pp ON ec.property_id = pp.id
+LEFT JOIN {{ source("zan_zpg_placement", "publishers") }}  AS ps ON ec.publisher_id = ps.id
+LEFT JOIN {{ source("zan_zpg_placement", "placements") }} AS p ON ec.placement_id = p.id
+LEFT JOIN {{ source("zan_zpg_campaign", "campaigns") }} c ON ec.campaign_id = c.id
+LEFT JOIN {{ source("zan_zpg_campaign", "advertisers") }} a ON c.account_id = a.id
+LEFT JOIN {{ ref('stg_pixel_data') }}
+
+ as px ON ec.visit_tracking_id = px.visit_tracking_id AND ec.campaign_tracking_id = px.campaign_tracking_id AND ec.event_type = 'campaign_converted'
 
 WHERE 1=1
 --AND CONVERT_TIMEZONE('UTC', 'America/Los_Angeles', CAST(ec.timestamp_pst AS TIMESTAMP_NTZ)) >= '2025-03-01'
