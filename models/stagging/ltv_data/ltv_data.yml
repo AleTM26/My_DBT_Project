@@ -21,3 +21,14 @@ models:
             description: Total of events "purchase"
           - name: revenue
             description: Total revenue
+  - name: stg_campaign_event_data
+    config: 
+      event_time: visit_date
+      materialized: incremental
+      incremental_strategy: microbatch
+      lookback: 3
+      batch_size: day
+      begin: "2025-04-06"
+      full_refresh: false
+
+  
