@@ -4,9 +4,6 @@ SELECT
     campaign_tracking_id,
     purchase,
     revenue/1e6 AS revenue,
-    timestamp_max
+    timestamp_max,
+    timestamp_min
 FROM {{ source("zan_zmetrics", "agg_visit_campaign_pixel") }}
-WHERE 1=1
---AND CONVERT_TIMEZONE('UTC', 'America/Los_Angeles', CAST(timestamp_min AS TIMESTAMP_NTZ)) >= '2025-03-01'
---AND CONVERT_TIMEZONE('UTC', 'America/Los_Angeles', CAST(timestamp_min AS TIMESTAMP_NTZ)) < '2025-03-25'
-AND {% incrementcondition %} CONVERT_TIMEZONE('UTC', 'America/Los_Angeles', CAST(timestamp_min AS TIMESTAMP_NTZ)) {% endincrementcondition %}

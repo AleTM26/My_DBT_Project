@@ -1,0 +1,23 @@
+models:
+  - name: stg_pixel_data
+    config: 
+      event_time: timestamp_min
+      materialized: incremental
+      incremental_strategy: microbatch
+      lookback: 3
+      batch_size: day
+      begin: "2025-04-06"
+      full_refresh: false
+    columns:
+          - name: timestamp_min
+            description: First Timestamp PST 
+          - name: timestamp_max
+            description: Last Timestamp in PST
+          - name: visit_tracking_id
+            description: Visit Tracking ID
+          - name: campaign_tracking_id
+            description:  Campaign Tracking ID
+          - name: purchase
+            description: Total of events "purchase"
+          - name: revenue
+            description: Total revenue
