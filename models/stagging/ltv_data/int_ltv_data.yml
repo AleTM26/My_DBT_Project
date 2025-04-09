@@ -31,3 +31,17 @@ models:
       batch_size: day
       begin: "2025-04-06"
       full_refresh: false
+    columns:
+      - name: visit_date_utc
+        description: Date when occurs a campaign events
+      - name: property_name
+        description: Property name based on event data
+      - name: publisher_visit_id
+        description:  Publisher Visit ID
+      - name: publisher_id
+        description: Publisher ID
+      - name: publisher_name
+        description: Publisher name based on event data
+      - name: utm_source
+        description: Utm source (no term when it's blank)
+     
