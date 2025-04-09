@@ -2,7 +2,7 @@ models:
   - name: stg_campaign_event_data
     description: Gets the campaign events campaign_impressed, campaign_clicked, campaign_converted for placement:linkout & rate type:cpc
     config: 
-      event_time: visit_date
+      event_time: visit_date_utc
       materialized: incremental
       incremental_strategy: microbatch
       lookback: 3
