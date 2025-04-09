@@ -44,4 +44,19 @@ models:
         description: Publisher name based on event data
       - name: utm_source
         description: Utm source (no term when it's blank)
+exposures:
+  - name: ltv_analysis_dashboard
+    label: LTV Analysis Campaign
+    type: dashboard
+    maturity: high
+    url: https://zeetogroup.looker.com/dashboards/904
+    description: shows the campaign metrics by utm parameters & publisher level with purchases
+
+    depends_on:
+      - ref('int_ltv_data')
+
+
+    owner:
+      name: Ale Tapia
+      email: ale@zeetogroup.com
      
