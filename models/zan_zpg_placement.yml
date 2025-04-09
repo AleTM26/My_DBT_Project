@@ -1,53 +1,14 @@
 version: 2
 
 sources:
-  - name: zan_zevent
+  - name: zan_zpg_placement
     database: zan_dev  
-    schema: zevent  
+    schema: zpg_placement  
     tables:
-      - name: event_visit_campaign
-        description: ZAN events ( Visit & Campaign)
-        config:
-          event_time: timestamp
-        columns:
-          - name: timestamp
-            description: Timestamp in UTC
-          - name: timestamp_pst
-            description: Timestamp in PST
-          - name: account_id
-            description: Advertiser ID
-          - name: placement_id
-            description:  Placement ID
-          - name: publisher_id
-            description: Publisher ID
-          - name: event_type
-            description: Name of the Event based on ZAN Topic
-          - name: revenue
-            description: Revenue
-          - name: rev_share
-            description: Revenue Share
+      - name: properties
+        description: Properties catalogs from Postgress database it gets updated every 15min
+      - name: publishers
+        description: Publishers catalogs from Postgress database it gets updated every 15min
+      - name: placements
+        description: Placements catalogs from Postgress database it gets updated every 15min
   
-  - name: zan_zmetrics
-    database: zan_dev  
-    schema: zmetrics  
-    tables:
-      - name: agg_visit_campaign_pixel
-        description: Aggregate table of PIXEL_STG getting the last values by visit_tracking_id & campaign_tracking_id
-        config:
-          event_time: timestamp_min
-        columns:
-          - name: timestamp_min
-            description: First Timestamp PST 
-          - name: timestamp_max
-            description: Last Timestamp in PST
-          - name: visit_tracking_id
-            description: Visit Tracking ID
-          - name: campaign_tracking_id
-            description:  Campaign Tracking ID
-          - name: purchase
-            description: Total of events "purchase"
-          - name: revenue
-            description: Total revenue
-
-
-

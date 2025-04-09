@@ -1,0 +1,10 @@
+
+sources:
+  - name: zan_zpg_campaign
+    database: zan_dev  
+    schema: zpg_campaign  
+    tables:
+      - name: campaigns
+        description: Campaign catalog from Postgress database it gets updated every 15min
+      - name: advertisers
+        description: Advertisers catalog from Postgress database it gets updated every 15min
