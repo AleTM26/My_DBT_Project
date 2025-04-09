@@ -2,7 +2,7 @@ models:
   - name: stg_pixel_data
     description: Pixel data
     config: 
-      event_time: timestamp_max
+      event_time: timestamp_min
       materialized: incremental
       incremental_strategy: microbatch
       lookback: 3
