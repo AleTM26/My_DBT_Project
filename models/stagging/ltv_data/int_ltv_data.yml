@@ -14,7 +14,7 @@ models:
   - name: int_ltv_data
     description: Analysis with campaign events and pixel data for linkout campaigns
     config:
-      event_time: visit_date
+      event_time: visit_date_utc
       materialized: incremental
       incremental_strategy: microbatch
       lookback: 3
