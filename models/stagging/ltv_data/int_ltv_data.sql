@@ -1,5 +1,5 @@
 SELECT
-c.visit_date,
+c.visit_date_utc,
 c.property_name,
 c.publisher_visit_id,
 c.publisher_id,
@@ -16,4 +16,4 @@ SUM(c.pixel_revenue) AS pixel_revenue
 FROM {{ ref('stg_campaign_event_data') }} c
 INNER JOIN {{ ref('stg_campaign_with_purchases') }} fc ON c.campaign_id = fc.campaign_id
 GROUP BY ALL
-QUALIFY ROW_NUMBER() OVER (partition by c.publisher_visit_id ORDER BY c.visit_date DESC) = 1
+QUALIFY ROW_NUMBER() OVER (partition by c.publisher_visit_id ORDER BY c.visit_date_utc DESC) = 1
